@@ -12,15 +12,14 @@ import android.widget.TextView;
 import com.example.rafael.weathertoday.R;
 import com.example.rafael.weathertoday.asyntasks.GetForecast;
 import com.example.rafael.weathertoday.entity.Forecast;
+import com.example.rafael.weathertoday.utils.Utils;
 
 
 public class ForecastFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "city";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String city;
     private String mParam2;
 
@@ -31,7 +30,7 @@ public class ForecastFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
+
     public static ForecastFragment newInstance(String city, String param2) {
         ForecastFragment fragment = new ForecastFragment();
         Bundle args = new Bundle();
@@ -64,16 +63,14 @@ public class ForecastFragment extends Fragment {
             public void onForecastResponse(Forecast forecast) {
                 txtCity.setText(forecast.getCity());
                 txtCountry.setText(forecast.getCountry());
-                txtTemperature.setText(String.valueOf(forecast.getTemperature()));
+                txtTemperature.setText(String.valueOf(Utils.convertKelvinToCelsius(forecast.getTemperature())));
             }
         };
-
 
         new GetForecast(onGetForecastListener).execute(city);
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
