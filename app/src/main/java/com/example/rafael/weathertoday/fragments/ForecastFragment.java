@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rafael.weathertoday.R;
-import com.example.rafael.weathertoday.asyntasks.GetForecast;
 import com.example.rafael.weathertoday.entity.Forecast;
+import com.example.rafael.weathertoday.listeners.OnGetForecast;
+import com.example.rafael.weathertoday.repository.ForecastRepository;
 import com.example.rafael.weathertoday.utils.Utils;
 
 
@@ -24,7 +25,7 @@ public class ForecastFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private GetForecast.OnGetForecast onGetForecastListener;
+    private OnGetForecast onGetForecastListener;
 
     public ForecastFragment() {
         // Required empty public constructor
@@ -58,7 +59,18 @@ public class ForecastFragment extends Fragment {
         final TextView txtCountry = (TextView) view.findViewById(R.id.text_country);
         final TextView txtTemperature = (TextView) view.findViewById(R.id.text_temp);
 
-        onGetForecastListener = new GetForecast.OnGetForecast() {
+        /*(
+        onGetForecastListener = new OnGetForecast() {
+            @Override
+            public void onForecastResponse(Forecast forecast) {
+                txtCity.setText(forecast.getCity());
+                txtCountry.setText(forecast.getCountry());
+                txtTemperature.setText(String.valueOf(Utils.convertKelvinToCelsius(forecast.getTemperature())));
+            }
+        }; */
+
+
+        onGetForecastListener = new OnGetForecast() {
             @Override
             public void onForecastResponse(Forecast forecast) {
                 txtCity.setText(forecast.getCity());
@@ -67,7 +79,9 @@ public class ForecastFragment extends Fragment {
             }
         };
 
-        new GetForecast(onGetForecastListener).execute(city);
+        //new GetForecast(onGetForecastListener).execute(city);
+        ForecastRepository forecastRepo = new ForecastRepository();
+        forecastRepo.getForecast(city, onGetForecastListener);
         return view;
     }
 

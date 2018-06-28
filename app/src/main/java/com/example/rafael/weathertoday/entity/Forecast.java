@@ -1,5 +1,7 @@
 package com.example.rafael.weathertoday.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by rafael on 28/05/17.
  */
@@ -30,7 +32,10 @@ public class Forecast {
         this.temperature = temperature;
     }
 
+    @SerializedName("name")
     private String city;
-    private String country;
-    private Double temperature;
+
+    private transient String country;
+
+    private transient Double temperature;
 }
